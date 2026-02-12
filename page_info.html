@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!------------------------------------------------------------------->
+<!------------------------------------------------------------------->
+
+<head>
+  <meta charset="UTF-8">
+  <title>Informations Fournisseur</title>
+  <link rel="stylesheet" href="page_info.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+
+<!------------------------------------------------------------------->
+<!------------------------------------------------------------------->
+
+<body>
+
+<!---------------------------------------------------------------------->
+<!------------------------------Titre page------------------------------>
+<!---------------------------------------------------------------------->
+
+<div id="header">
+  <img src="logo.png" alt="Logo" id="logo">
+  <h1>Informations fournisseur</h1>
+</div>
+<div id="secondeLigne"></div>
+
+
+
+<!----------------------------------------------------------------------->
+<!----------------------------bloc fournisseur---------------------------->
+<!----------------------------------------------------------------------->
+
+<div id="bloc_fourni">
+  
+  <span id="fournisseurNom"></span>
+  <span id="activite"></span>
+</div>
+
+<!----------------------------------------------------------------------->
+<!-----------------------------ligne warning----------------------------->
+<!----------------------------------------------------------------------->
+<div id="ligne_warning">
+  <img src="warning.png" alt="warning" id="warning">
+  <span id="message_warning">Aucune commande depuis 2 ans</span>
+</div>
+  
+
+<!----------------------------------------------------------------------->
+<!---------------------------bloc informations--------------------------->
+<!----------------------------------------------------------------------->
+<div id="bloc_info_et_contact">
+
+
+  <div id="bloc_informations">
+    <span id="intitule_informations">Informations</span>
+    <div id="ligne_contrat">
+      <img src="rouge.png" alt="rouge" id="rouge">
+      <img src="vert.png" alt="vert" id="vert">
+      <img src="gris.png" alt="gris" id="gris">
+      <span id="Contrat"></span>
+    </div>
+    
+    <span id="commentaire"></span>
+
+    <span id="denomination_X3">Dénomination X3 :</span>
+    <span id="denomX3"></span>
+
+    <div id="ligne_pays">
+      <span id="intitule_pays">Pays :</span>
+      <span id="pays"></span>
+    </div>
+    
+    <div id="ligne_devise">
+      <span id="intitule_devise">Devise :</span>
+      <span id="devise"></span>
+    </div>
+    
+    <div id="ligne_webshop">
+      <img src="colis.svg" alt="colis" id="colis">
+      <span id="lien"></span> 
+    </div>
+  </div>
+
+
+  <div id="contacts"></div>
+
+
+</div>
+
+
+
+
+<!---------------------------------------------------------------------->
+<!-----------------------------Liaison à JS----------------------------->
+<!---------------------------------------------------------------------->
+
+<script src="page_info.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+/* Il faut en fait prendre le nom de la balise du fichier html 
+pour laquelle tu veux que le style soit adopté. Donc toutes 
+les choses contenues dans cette balise auront ce style */
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 50px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #707173; 
+}
+
+
+/* Masque à l'origine les 2 barres de recherche et après c'est géré 
+dans le js pour voir ce qu'on affiche en focntion du clique qui sera fait  */
+
+/* Le # cible un id précis. Si on avait mis u ne class toolbar déja ça aurait 
+été unique pour marque et fournisseur (car une class peut être utilisée par 
+plusieurs éléments) et on aurait mis un . au lieu du # */
+
+
+label {
+  margin-right: 20px;
+}
+
+/* Conteneur des listes centré */
+p {
+  display: flex;             /* utilise flexbox pour alignement */
+  justify-content: center;   /* centre horizontalement */
+  gap: 40px;                 /* espace entre Marque et Famille */
+  margin-top: 20px;
+}
+
+
+/*------------------------------------- Titre page -------------------------------------*/
+
+#header {
+  display: flex;
+  align-items: center;      /* aligne verticalement logo + titre */
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-bottom: 4px solid #A1A1A1 ;
+  padding-bottom: 40px;
+}
+
+#secondeLigne {
+  width: 100%;
+  height: 1px;
+  background-color: #A1A1A1;
+  margin-top: 6px;                /* espace entre les deux lignes */
+  margin-bottom: 20px;
+}
+
+#logo {
+  height: 50px;             /* ajuste la taille du logo */
+  margin-right: 40px;       /* espace entre logo et titre */
+  padding-right: 40px;                    /* espace avant la barre */
+  border-right: 2px solid #A1A1A1;        /* barre verticale fine */
+}
+
+
+
+
+/*--------------------------------------- bloc fournisseur ---------------------------------------*/
+#bloc_fourni {
+    display: flex;
+    flex-direction: column;   /* empile les enfants verticalement */
+    align-items: center;  /* aligne à gauche, tu peux changer */
+    justify-content: flex-start; /* commence en haut */
+    width: 100%;
+    font-size: 24px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    margin-top: 30px;
+    gap: 10px; /* espace entre les éléments empilés */
+}
+
+#fournisseurNom {
+    font-size:48px;
+    font-weight: bold;
+}
+
+/*--------------------------------------- Ligne warning ---------------------------------------*/
+
+#ligne_warning {
+  display: none;
+  color: white;
+  background-color: #C8102E;
+  margin-top: 30px;
+  padding: 10px 30px;
+  border-radius: 30px;
+  align-items: center;
+  font-weight: bold;
+  width: fit-content;           /* Ajouter */
+  align-self: center;           /* Ajouter */
+  margin-left: auto;            /* Ajouter */
+  margin-right: auto;           /* Ajouter */
+}
+
+
+#warning {
+  height: 30px;
+}
+
+
+
+/*--------------------------------------- bloc information ---------------------------------------*/
+
+#bloc_info_et_contact{
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  width: 100%;                    /* Ajouter */
+  max-width: 1400px;              /* Ajouter (ajuste selon tes besoins) */
+  align-self: center;             /* Ajouter pour centrer ce bloc spécifiquement */
+}
+
+#bloc_informations {
+    display: flex;
+    flex-direction: column;   /* empile les enfants verticalement */
+    align-items: flex-start;  /* aligne à gauche, tu peux changer */
+    justify-content: flex-start; /* commence en haut */
+    width: 50%;
+    font-size: 24px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    margin-top: 30px;
+    margin-left: 20px;  /* Réduit de 100px à 20px */
+}
+
+#intitule_informations{
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;  /* 30px après le titre */
+}
+
+#ligne_contrat,
+#ligne_pays,
+#ligne_devise{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#ligne_contrat {
+  margin-bottom: 5px;  /* petit espace avant commentaire */
+}
+
+#denomination_X3,
+#intitule_pays,
+#intitule_devise{
+  font-weight: bold;
+}
+
+#rouge,
+#vert,
+#gris{
+  display: none;
+  height: 30px;
+  flex-shrink: 0;  /* Empêche l'image de rétrécir */
+}
+
+#Contrat {
+  font-weight: bold;
+}
+
+#commentaire{
+  margin-left: 45px;
+  width: calc(100% - 45px);  /* Pour gérer le retour à la ligne */
+  word-wrap: break-word;
+  margin-bottom: 30px;  /* 30px après commentaire */
+}
+
+#denomination_X3 {
+  margin-bottom: 5px;  /* petit espace avant denomX3 */
+}
+
+#denomX3 {
+  margin-left: 45px;
+  width: calc(100% - 45px);  /* Pour gérer le retour à la ligne */
+  word-wrap: break-word;
+  margin-bottom: 30px;  /* 30px après denomX3 */
+}
+
+#ligne_pays {
+  margin-bottom: 30px;  /* 30px après pays */
+}
+
+#ligne_devise {
+  margin-bottom: 30px;
+}
+
+#ligne_webshop {
+  margin-left: 50px;
+  padding: 15px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border: 1px solid #707173;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;  /* espace entre l'icône et le lien */
+}
+
+#colis {
+  height: 48px;  /* ajuste la taille de l'icône si besoin */
+}
+
+#lien a {
+  text-decoration: none;
+  color: #707173;
+}
+
+#lien a:hover {
+  text-decoration: underline;
+}
+/*--------------------------------------- Bloc contact ---------------------------------------*/
+
+#contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    font-size: 24px;
+    padding: 10px 20px;
+    box-sizing: border-box;  
+    margin-top: 30px;
+}
+
+.contact-info {
+    font-size: 24px;
+}
+
+
+
+

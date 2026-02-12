@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<!------------------------------------------------------------------->
+<!------------------------------------------------------------------->
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cartographie achat</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+
+<!------------------------------------------------------------------->
+<!------------------------------------------------------------------->
+
+<body>
+
+<!---------------------------------------------------------------------->
+<!------------------------------Titre page------------------------------>
+<!---------------------------------------------------------------------->
+
+<div id="header">
+  <img src="logo.png" alt="Logo" id="logo">
+  <h1>Cartographie achat</h1>
+</div>
+
+<div id="secondeLigne"></div>
+<!------------------------------------------------------------------------------------>
+<!------------------------------Ligne "Rechercher par :"------------------------------>
+<!------------------------------------------------------------------------------------>
+
+<p id="choixRecherche">
+    Rechercher par :
+
+
+<label>
+  <input type="radio" name="choix" id="btnMarque">
+  Marque
+</label>
+
+<label>   <!--Label = texte cliquable lié à un input--> 
+  <input type="radio" name="choix" id="btnFournisseur">
+  Fournisseur
+</label>
+
+</p>
+
+
+<!--------------------------------------------------------------------------->
+<!--------------Ligne fournisseur ou marque avec zone de texte -------------->
+<!--------------------------------------------------------------------------->
+
+<div id="toolbarMarque">
+  <label>
+    Marque :
+    <input type="text" id="inputMarque">
+  </label>
+</div>
+
+
+<div id="toolbarFournisseur">
+  <label>
+    Fournisseur :
+    <input type="text" id="inputFournisseur">
+  </label>
+</div>
+
+
+<!--------------------------------------------------------------------------->
+<!------------------------Page Fournisseur ou Marque------------------------->
+<!--------------------------------------------------------------------------->
+
+<!-------------------------------Choix fenêtre------------------------------->
+
+<div id = "ChoixFenêtre">
+    <label>
+        <input type="button" id="btnNeuf" value="Neuf">      
+        <input type="button" id="btnReconditionne" value="Reconditionné">
+        <input type="button" id="btnReparation" value="Réparation">
+    </label>
+</div>
+
+
+<!----------------------------------Page Marque---------------------------------->
+
+<div id="messageMarque">
+  Marque inconnue
+</div>
+
+<div id="messageMarqueNeuf">
+  Cette marque n'a pas de pièces neuves
+</div>
+
+<div id="messageMarqueRec">
+  Cette marque n'a pas de pièces reconditionnées
+</div>
+
+<div id="messageMarqueRep">
+  Cette marque ne fait pas de réparations
+</div>
+
+<div id="pageMarque">
+  <p>
+    <label class="bloc-select">
+      Fournisseur :
+      <select id="lstFourni" multiple ></select>
+    </label>
+
+    <label class="bloc-select">
+      Famille :
+      <select id="lstFamilleM" multiple ></select>
+    </label>
+  </p>
+
+  <!-- Tableau des résultats -->
+  <table id="resultsTableMarque" border="1" >
+    <thead>
+      <tr>
+        <th>Fournisseur</th>
+        <th>Famille</th>
+        <th>Sous contrat ?</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBodyMarque">
+      <!-- Les lignes seront ajoutées dynamiquement par JS -->
+    </tbody>
+  </table>
+</div>
+
+<!------------------------------Page Fournisseur------------------------------>
+
+<div id="messageFournisseur">
+  Fournisseur inconnu
+</div>
+
+<div id="messageFourniNeuf">
+  Ce fournisseur ne fait pas de pièces neuves
+</div>
+
+<div id="messageFourniRec">
+  Ce fournisseur ne fait pas de pièces reconditionnées
+</div>
+
+<div id="messageFourniRep">
+  Ce fournisseur ne fait pas de réparations
+</div>
+
+<div id="pageFournisseur">
+  <p>
+    <label class="bloc-select">
+      Marque :
+      <select id="lstMarque" multiple ></select>
+    </label>
+
+    <label class="bloc-select">
+      Famille :
+      <select id="lstFamilleF" multiple ></select>
+    </label>
+  </p>
+
+  <!-- Tableau des résultats -->
+  <table id="resultsTableFourni" border="1" >
+    <thead>
+      <tr>
+        <th>Fournisseur</th>
+        <th>Marque</th>
+        <th>Famille</th>
+        <th>Sous contrat ?</th>
+      </tr>
+    </thead>
+    <tbody id="resultsBodyFourni">
+      <!-- Les lignes seront ajoutées dynamiquement par JS -->
+    </tbody>
+  </table>
+</div>
+
+<!------Liaison à JS à la fin parce que sinon JS connaitra pas toutes les variables------>
+
+<script src="script.js"></script>
+</body>
+
+
+
+</html>
