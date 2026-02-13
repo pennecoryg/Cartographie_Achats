@@ -58,25 +58,25 @@ chargerDonnees().then(() => {
   
   // ✅ Maintenant les données sont chargées, on peut remplir les datalists
   
-  // Remplir la liste des marques
-  const marques = [...new Set(data_carto.map(item => item.Fabriquant))].filter(m => m).sort();
+    // Remplir la liste des marques
+  const marques_disp = [...new Set(data_carto.map(item => item.Fabriquant))].filter(m => m).sort();
   const marquesDatalist = document.getElementById("marquesList");
-  marques.forEach(marque => {
+  marques_disp.forEach(marque => {
     const option = document.createElement("option");
     option.value = marque;
     marquesDatalist.appendChild(option);
   });
 
   // Remplir la liste des fournisseurs
-  const fournisseurs = [...new Set(data_fourni.map(item => item.Fournisseur))].filter(f => f).sort();
+  const fournisseurs_disp = [...new Set(data_fourni.map(item => item.Fournisseur))].filter(f => f).sort();
   const fournisseursDatalist = document.getElementById("fournisseursList");
-  fournisseurs.forEach(fournisseur => {
+  fournisseurs_disp.forEach(fournisseur => {
     const option = document.createElement("option");
     option.value = fournisseur;
     fournisseursDatalist.appendChild(option);
   });
   
-  console.log("✅ Datalists remplis avec", marques.length, "marques et", fournisseurs.length, "fournisseurs");
+  console.log("✅ Datalists remplis avec", marques_disp.length, "marques et", fournisseurs_disp.length, "fournisseurs");
   //--------------------------------------------------------------------------------//
   //------------------------------------Variables-----------------------------------//
   //--------------------------------------------------------------------------------//
@@ -748,6 +748,7 @@ chargerDonnees().then(() => {
 
 
 });
+
 
 
 
