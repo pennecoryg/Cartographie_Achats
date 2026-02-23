@@ -139,6 +139,8 @@ chargerDonnees().then(() => {
     pageFournisseur.style.display = "none";
     pageMarque.style.display = "none";
     cleanMessages();
+    // Vider l'input fournisseur
+    inputFournisseur.value = "";
   };
   
   
@@ -155,6 +157,8 @@ chargerDonnees().then(() => {
     pageFournisseur.style.display = "none";
     pageMarque.style.display = "none";
     cleanMessages();
+    // Vider l'input marque
+    inputMarque.value = "";
   };
   
   
@@ -788,6 +792,7 @@ chargerDonnees().then(() => {
 
 
 });
+
 
 
 
