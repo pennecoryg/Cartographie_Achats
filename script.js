@@ -493,41 +493,64 @@ chargerDonnees().then(() => {
   // Remplissage du tableau Marque
   
   function remplirTableMarque(lignes, type) {
-    resultsBodyMarque.innerHTML = "";
-  
-    lignes.forEach(item => {
-      // Vérifier si le type demandé est OUI pour cette ligne
-      let res_type = "";
-      if (type === "Neuf") res_type = item["Neuf ?"];
-      else if (type === "Reconditionne") res_type = item["Reconditionne ?"];
-      else if (type === "Reparation") res_type = item["Reparation ?"];
-  
-      if (res_type !== "OUI") return;
-  
-      // Récupérer les fournisseurs de la ligne
-      const fournisseurs = item.Fournisseur
-        ? [...new Set(item.Fournisseur.split(",").map(f => f.trim().toUpperCase()))]
-        : [];
-  
-      fournisseurs.forEach(fournisseur => {
-        if (!fournisseurAutorisePourType(fournisseur, type)) return;
-        const contratFourni = getContratFournisseur(fournisseur);
-  
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>
-            <a href="page_info.html?fournisseur=${encodeURIComponent(fournisseur)}" target="_blank">
-              ${fournisseur}
-            </a>
-          </td>
-          <td>${item.Famille || ""}</td>
-          <td style="color: ${contratFourni === 'OUI' ? '#00EC00' : 'inherit'}">${contratFourni}</td>
-        `;
-  
-        resultsBodyMarque.appendChild(tr);
+  resultsBodyMarque.innerHTML = "";
+
+  // Créer un tableau temporaire avec toutes les lignes
+  const lignesTableau = [];
+
+  lignes.forEach(item => {
+    // Vérifier si le type demandé est OUI pour cette ligne
+    let res_type = "";
+    if (type === "Neuf") res_type = item["Neuf ?"];
+    else if (type === "Reconditionne") res_type = item["Reconditionne ?"];
+    else if (type === "Reparation") res_type = item["Reparation ?"];
+
+    if (res_type !== "OUI") return;
+
+    // Récupérer les fournisseurs de la ligne
+    const fournisseurs = item.Fournisseur
+      ? [...new Set(item.Fournisseur.split(",").map(f => f.trim().toUpperCase()))]
+      : [];
+
+    fournisseurs.forEach(fournisseur => {
+      if (!fournisseurAutorisePourType(fournisseur, type)) return;
+      const contratFourni = getContratFournisseur(fournisseur);
+
+      // Stocker les données au lieu de créer directement le <tr>
+      lignesTableau.push({
+        fournisseur: fournisseur,
+        famille: item.Famille || "",
+        contrat: contratFourni
       });
     });
-  }
+  });
+
+  // Trier : d'abord par contrat (OUI avant NON), puis par ordre alphabétique
+  lignesTableau.sort((a, b) => {
+    // Priorité 1 : Contrat (OUI avant NON)
+    if (a.contrat === 'OUI' && b.contrat !== 'OUI') return -1;
+    if (a.contrat !== 'OUI' && b.contrat === 'OUI') return 1;
+    
+    // Priorité 2 : Ordre alphabétique du fournisseur
+    return a.fournisseur.localeCompare(b.fournisseur);
+  });
+
+  // Créer les lignes du tableau dans l'ordre trié
+  lignesTableau.forEach(ligne => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>
+        <a href="page_info.html?fournisseur=${encodeURIComponent(ligne.fournisseur)}" target="_blank">
+          ${ligne.fournisseur}
+        </a>
+      </td>
+      <td>${ligne.famille}</td>
+      <td style="color: ${ligne.contrat === 'OUI' ? '#00EC00' : 'inherit'}">${ligne.contrat}</td>
+    `;
+
+    resultsBodyMarque.appendChild(tr);
+  });
+}
   
   
   
@@ -622,43 +645,60 @@ chargerDonnees().then(() => {
   // Remplissage du tableau Fournisseur
   
   function remplirTableFournisseur(fournisseur, lignes, type) {
-    resultsBodyFourni.innerHTML = "";
-  
-    lignes.forEach(item => {
-      // Vérifier si le type demandé est OUI pour cette ligne
-      let res_type = "";
-      if (type === "Neuf") res_type = item["Neuf ?"];
-      else if (type === "Reconditionne") res_type = item["Reconditionne ?"];
-      else if (type === "Reparation") res_type = item["Reparation ?"];
-  
-      if (res_type !== "OUI") return; // ignore la ligne si pas OUI
-  
-      // Récupérer toutes les marques (il peut y en avoir plusieurs, séparées par ",")
-      const marques = item.Fabriquant
-        ? [...new Set(item.Fabriquant.split(",").map(m => m.trim()))]
-        : [];
-  
-      const contratFourni = getContratFournisseur(fournisseur);
-        
-      // Ajouter une ligne pour chaque marque
-      marques.forEach(marque => {
-        if (!marqueAutoriseePourType(marque, type)) return;
-  
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>
-            <a href="page_info.html?fournisseur=${encodeURIComponent(fournisseur)}" target="_blank">
-              ${fournisseur}
-            </a>
-          </td>
-          <td>${marque}</td>
-          <td>${item.Famille || ""}</td>
-          <td style="color: ${contratFourni === 'OUI' ? '#00EC00' : 'inherit'}">${contratFourni}</td>
-        `;
-        resultsBodyFourni.appendChild(tr);
+  resultsBodyFourni.innerHTML = "";
+
+  // Créer un tableau temporaire avec toutes les lignes
+  const lignesTableau = [];
+
+  lignes.forEach(item => {
+    // Vérifier si le type demandé est OUI pour cette ligne
+    let res_type = "";
+    if (type === "Neuf") res_type = item["Neuf ?"];
+    else if (type === "Reconditionne") res_type = item["Reconditionne ?"];
+    else if (type === "Reparation") res_type = item["Reparation ?"];
+
+    if (res_type !== "OUI") return; // ignore la ligne si pas OUI
+
+    // Récupérer toutes les marques (il peut y en avoir plusieurs, séparées par ",")
+    const marques = item.Fabriquant
+      ? [...new Set(item.Fabriquant.split(",").map(m => m.trim()))]
+      : [];
+
+    const contratFourni = getContratFournisseur(fournisseur);
+      
+    // Ajouter une ligne pour chaque marque
+    marques.forEach(marque => {
+      if (!marqueAutoriseePourType(marque, type)) return;
+
+      // Stocker les données au lieu de créer directement le <tr>
+      lignesTableau.push({
+        fournisseur: fournisseur,
+        marque: marque,
+        famille: item.Famille || "",
+        contrat: contratFourni
       });
     });
-  }
+  });
+
+  // Trier par ordre alphabétique de la marque uniquement
+  lignesTableau.sort((a, b) => a.marque.localeCompare(b.marque));
+
+  // Créer les lignes du tableau dans l'ordre trié
+  lignesTableau.forEach(ligne => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>
+        <a href="page_info.html?fournisseur=${encodeURIComponent(ligne.fournisseur)}" target="_blank">
+          ${ligne.fournisseur}
+        </a>
+      </td>
+      <td>${ligne.marque}</td>
+      <td>${ligne.famille}</td>
+      <td style="color: ${ligne.contrat === 'OUI' ? '#00EC00' : 'inherit'}">${ligne.contrat}</td>
+    `;
+    resultsBodyFourni.appendChild(tr);
+  });
+}
   
   
   
@@ -748,6 +788,7 @@ chargerDonnees().then(() => {
 
 
 });
+
 
 
 
