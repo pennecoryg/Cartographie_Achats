@@ -6,9 +6,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
   font-family: Calibri, sans-serif;
-  color: #707173; 
+  color: #707173;
+  width: 100%;
 }
 
 
@@ -28,10 +31,8 @@ label {
 
 /* Conteneur des listes centré */
 p {
-  display: flex;             /* utilise flexbox pour alignement */
-  justify-content: center;   /* centre horizontalement */
-  gap: 40px;                 /* espace entre Marque et Famille */
-  margin-top: 20px;
+  display: flex;
+  font-size: 20px;
 }
 
 /*------------------------------------- Initialisation du style des ID -------------------------------------*/
@@ -41,10 +42,9 @@ p {
   align-items: center;      /* aligne verticalement logo + titre */
   justify-content: flex-start;
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 20px 40px 20px;
   box-sizing: border-box;
   border-bottom: 4px solid #A1A1A1 ;
-  padding-bottom: 40px;
 }
 
 #secondeLigne {
@@ -66,234 +66,123 @@ p {
   margin: 0;                /* enlève la marge par défaut du h1 */
 }
 
-/*-------------------------------------Ligne Rechercher par :-------------------------------------*/
-
-#choixRecherche label,
-#choixRecherche input[type="radio"] {
-  cursor: pointer;
+#contenu {
+  width: 100%;
+  box-sizing: border-box;
+  
 }
 
-/* Style des boutons radio */
-#choixRecherche input[type="radio"] {
-  accent-color: #707173;           /* couleur quand coché */
-  cursor: pointer;
+/*------------------------------------------Ligne filtrage------------------------------------------*/
+
+#ligneRecherche {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+  box-sizing: border-box;
+  margin-bottom: 40px;
 }
 
-/*-------------------------------------Ligne Fournisseur : ou Marque :-------------------------------------*/
-
+#toolbarMarque, 
 #toolbarFournisseur,
-#toolbarMarque {
-  display: none;
-  margin-top: 20px;
+#toolbarFamille,
+#toolbarStatut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
 }
 
+#inputMarque, 
 #inputFournisseur,
-#inputMarque {
-  padding: 5px; 
-  margin-left: 15px;                       /* ajoute un peu d'espace intérieur */
-  border-radius: 5px;                  /* coins arrondis */    
-  border: 1px solid #707173;
-}
-
-/* Supprime le fond bleu de l'autocomplétion */
-#inputFournisseur:-webkit-autofill,
-#inputMarque:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;  /* force fond blanc */
-  -webkit-text-fill-color: #707173 !important;              /* couleur du texte */
-}
-
-
-/*----------------------------------------Ligne des 3 boutons----------------------------------------*/
-
-#ChoixFenêtre {
-  display: none;
-  margin-top: 20px;
-}
-
-#messageFournisseur {
-  display: none;
-  color: white;                          /* texte en blanc */
-  background-color: #C8102E;             /* fond rouge */
-  margin-top: 30px;
-  padding: 5px 10px;                    /* espace intérieur */
-  border-radius: 20px;                    /* coins arrondis */
-  text-align: center;                    /* texte centré (optionnel) */
-}
-
-#messageMarque {
-  display: none;
-  color: white;                          /* texte en blanc */
-  background-color: #C8102E;             /* fond rouge */
-  margin-top: 30px;
-  padding: 5px 10px;                    /* espace intérieur */
-  border-radius: 20px;                    /* coins arrondis */
-  text-align: center;                    /* texte centré (optionnel) */
-}
-
-#messageFourniNeuf,
-#messageFourniRec,
-#messageFourniRep,
-#messageMarqueNeuf,
-#messageMarqueRec,
-#messageMarqueRep {
-  display: none;
-  color: white;                          /* texte en blanc */
-  background-color: #C8102E;             /* fond rouge */
-  margin-top: 30px;
-  padding: 5px 10px;                    /* espace intérieur */
-  border-radius: 20px;                    /* coins arrondis */
-  text-align: center;                    /* texte centré (optionnel) */
-}
-
-#pageFournisseur {
-    display:none;
-    align-items: center;
-}
-
-#pageMarque {
-    display:none;
-    align-items: center;
-}
-
-
-
-
-
-/*------------------------------------------- Style pour les boutons -------------------------------------------*/
-
-#ChoixFenêtre input[type="button"] {
-  color: white;
-  width: 150px;
-  padding: 10px 20px;
-  margin: 15px;
-  border: none;
+#inputFamille,
+#inputStatut {
   border-radius: 5px;
-  cursor: pointer;
+  border: 2px solid #FFDA00;
+  background-color: #FFF4BB;
+  color: #707173;
+  width: 90%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
-#btnNeuf{
+
+#btnValider,
+#btnEffacer {
+  color: white;
+  width: 80px;
+  padding: 5px;
+  margin: 5px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#btnValider {
+  border: 2px solid #009EFF;
+  background-color: #5CC1FF;
+}
+
+#btnEffacer {
+  border: 2px solid #A1A1A1;
+  background-color: #C3C3C3;
+}
+
+
+/*------------------------------------- Tableau -------------------------------------*/
+
+#Tableau {
+  
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+  border: none;
+  
+}
+
+#tableauWrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-top: 30px;
+  max-height: 70vh;
+}
+
+#Tableau th,
+#Tableau td {
+  border: none;
+  text-align: center;
+  padding: 8px;
+  word-wrap: break-word;
+}
+
+#Tableau thead th {
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  border-bottom: 1px solid white;
   background-color: #009EFF;
 }
 
-#btnReconditionne{
-  background-color: #FFDA00;
+#Tableau tbody tr:nth-child(even) {
+  background-color: rgba(186, 229, 255, 0.5);
 }
 
-#btnReparation{
-  background-color: #FF785A;
-}
-
-#ChoixFenêtre input[type="button"]:not(.active) {
-  filter: brightness(85%);
-}
-
-/* Bouton actif */
-#ChoixFenêtre input[type="button"].active {
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
-}
-
-
-
-/*-------------------------------------- Style pour les listes déroulantes --------------------------------------*/
-
-#lstMarque,
-#lstFamilleM,
-#lstFamilleF,
-#lstFourni {
-  width: 220px;
-  padding: 6px;
-  border-radius: 10px;
-  border: 1px solid #c9c9c9;
-  background-color: #fff;
-  font-size: 14px;
-  font-family: inherit;
-  color: #333;
-
-  max-height: 160px;     /* 👈 hauteur MAX */
-  overflow-y: scroll;      /* scroll uniquement si besoin */
-
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  outline: none;
-}
-
-.bloc-select {
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* centre par rapport à la largeur du select */
-  gap: 6px;
-}
-
-
-
-
-
-/*------------------------------------- Tableau fournisseur et marque -------------------------------------*/
-
-#resultsTableFourni,
-#resultsTableMarque {
-  margin-top: 50px;
-  border-collapse: collapse;
-  width: 100%;
-  table-layout: fixed;
-  border: none; /* supprime contour du tableau */
-}
-
-#resultsTableFourni th,
-#resultsTableFourni td,
-#resultsTableMarque th,
-#resultsTableMarque td {
-  border: none; /* supprime toute bordure par défaut */
-}
-
-/* En-tête : seule la bordure entre header et corps reste */
-#resultsTableFourni thead th,
-#resultsTableMarque thead th {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 3px solid #A1A1A1; /* bordure épaisse */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Corps : seules bordures verticales entre colonnes */
-#resultsTableFourni tbody td,
-#resultsTableMarque tbody td {
-  padding: 10px;
-  text-align: center;
-  border-left: 1px solid #A1A1A1;  /* verticales entre colonnes */
-  border-right: 1px solid #A1A1A1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Supprime bordures verticales sur les côtés extérieurs */
-#resultsTableFourni tbody td:first-child,
-#resultsTableMarque tbody td:first-child {
-  border-left: none;
-}
-
-#resultsTableFourni tbody td:last-child,
-#resultsTableMarque tbody td:last-child {
-  border-right: none;
-}
-
-
-#resultsTableFourni tbody a,
-#resultsTableMarque tbody a {
+#Tableau a {
   font-weight: bold;       /* texte en gras */
   color: inherit;          /* garde la couleur du texte du tableau */
   text-decoration: none;   /* supprime le soulignement */
   cursor: pointer;         /* curseur pointeur pour montrer que c'est cliquable */
 }
 
-/* Optionnel : effet au survol */
-#resultsTableFourni tbody a:hover,
-#resultsTableMarque tbody a:hover {
+/*Effet au survol */
+#Tableau a:hover{
   text-decoration: underline; /* souligne au survol pour l'indication visuelle */
   color: #000;                 /* ou une couleur que tu préfères */
 }
-
-
 
