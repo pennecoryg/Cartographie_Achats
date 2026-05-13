@@ -26,157 +26,80 @@
 </div>
 
 <div id="secondeLigne"></div>
-<!------------------------------------------------------------------------------------>
-<!------------------------------Ligne "Rechercher par :"------------------------------>
-<!------------------------------------------------------------------------------------>
 
-<p id="choixRecherche">
-    Rechercher par :
+<div id = "contenu">
+  <!------------------------------------------------------------------------------------>
+  <!-----------------------------------Ligne filtrage----------------------------------->
+  <!------------------------------------------------------------------------------------>
 
+    <div id ="ligneRecherche">
+        <p>Rechercher :</p>
+        <div id="toolbarFournisseur">
+          <label>
+            Fournisseur :
+            <input type="text" id="inputFournisseur" list="fournisseursList" autocomplete="off">
+            <datalist id="fournisseursList"></datalist>
+          </label>
+        </div>
 
-<label>
-  <input type="radio" name="choix" id="btnMarque">
-  Marque
-</label>
+        <div id="toolbarMarque">
+          <label>
+            Marque :
+            <input type="text" id="inputMarque" list="marquesList" autocomplete="off">
+            <datalist id="marquesList"></datalist>
+          </label>
+        </div>
 
-<label>   <!--Label = texte cliquable lié à un input--> 
-  <input type="radio" name="choix" id="btnFournisseur">
-  Fournisseur
-</label>
+        <div id = "toolbarFamille">
+          <label>
+            Famille :
+            <input type="text" id="inputFamille" list="famillesList" autocomplete="off">
+            <datalist id="famillesList"></datalist>
+          </label>
 
-</p>
+        </div>
 
+        <div id = "toolbarStatut">
+          <label>
+            Statut :
+            <input type="text" id="inputStatut" list="statutsList" autocomplete="off">
+            <datalist id="statutsList"></datalist>
+          </label>
 
-<!--------------------------------------------------------------------------->
-<!--------------Ligne fournisseur ou marque avec zone de texte -------------->
-<!--------------------------------------------------------------------------->
+        </div>
 
-<div id="toolbarMarque">
-  <label>
-    Marque :
-    <input type="text" id="inputMarque" list="marquesList" autocomplete="off">
-    <datalist id="marquesList"></datalist>
-  </label>
+        <input type="button" id="btnValider" value="Valider">      
+        <input type="button" id="btnEffacer" value="Effacer">
+        
+        
+    </div>
+
+  <!----------------------------------------------------------------------------------->
+  <!-----------------------------------Ligne tableau----------------------------------->
+  <!----------------------------------------------------------------------------------->
+  <div id="tableauWrapper">
+    <!-- Tableau des résultats -->
+    <table id="Tableau" border="1" >
+      <thead>
+        <tr>
+          <th>Fournisseur</th>
+          <th>Dénomination X3</th>
+          <th>Marque</th>
+          <th>Famille</th>
+          <th>Activité</th>
+          <th>Devise</th>
+          <th>Lien webshop</th>
+          <th>Sous contrat ?</th>
+          <th>Top orygamy</th>
+          <th>Priorité</th>
+        </tr>
+      </thead>
+      <tbody id="resultsTableau">
+        <!-- Les lignes seront ajoutées dynamiquement par JS -->
+      </tbody>
+    </table>
+  </div>
 </div>
-
-
-<div id="toolbarFournisseur">
-  <label>
-    Fournisseur :
-    <input type="text" id="inputFournisseur" list="fournisseursList" autocomplete="off">
-    <datalist id="fournisseursList"></datalist>
-  </label>
-</div>
-
-
-<!--------------------------------------------------------------------------->
-<!------------------------Page Fournisseur ou Marque------------------------->
-<!--------------------------------------------------------------------------->
-
-<!-------------------------------Choix fenêtre------------------------------->
-
-<div id = "ChoixFenêtre">
-    <label>
-        <input type="button" id="btnNeuf" value="Neuf">      
-        <input type="button" id="btnReconditionne" value="Reconditionné">
-        <input type="button" id="btnReparation" value="Réparation">
-    </label>
-</div>
-
-
-<!----------------------------------Page Marque---------------------------------->
-
-<div id="messageMarque">
-  Marque inconnue
-</div>
-
-<div id="messageMarqueNeuf">
-  Cette marque n'a pas de pièces neuves
-</div>
-
-<div id="messageMarqueRec">
-  Cette marque n'a pas de pièces reconditionnées
-</div>
-
-<div id="messageMarqueRep">
-  Cette marque ne fait pas de réparations
-</div>
-
-<div id="pageMarque">
-  <p>
-    <label class="bloc-select">
-      Fournisseur :
-      <select id="lstFourni" multiple ></select>
-    </label>
-
-    <label class="bloc-select">
-      Famille :
-      <select id="lstFamilleM" multiple ></select>
-    </label>
-  </p>
-
-  <!-- Tableau des résultats -->
-  <table id="resultsTableMarque" border="1" >
-    <thead>
-      <tr>
-        <th>Fournisseur</th>
-        <th>Famille</th>
-        <th>Sous contrat ?</th>
-      </tr>
-    </thead>
-    <tbody id="resultsBodyMarque">
-      <!-- Les lignes seront ajoutées dynamiquement par JS -->
-    </tbody>
-  </table>
-</div>
-
-<!------------------------------Page Fournisseur------------------------------>
-
-<div id="messageFournisseur">
-  Fournisseur inconnu
-</div>
-
-<div id="messageFourniNeuf">
-  Ce fournisseur ne fait pas de pièces neuves
-</div>
-
-<div id="messageFourniRec">
-  Ce fournisseur ne fait pas de pièces reconditionnées
-</div>
-
-<div id="messageFourniRep">
-  Ce fournisseur ne fait pas de réparations
-</div>
-
-<div id="pageFournisseur">
-  <p>
-    <label class="bloc-select">
-      Marque :
-      <select id="lstMarque" multiple ></select>
-    </label>
-
-    <label class="bloc-select">
-      Famille :
-      <select id="lstFamilleF" multiple ></select>
-    </label>
-  </p>
-
-  <!-- Tableau des résultats -->
-  <table id="resultsTableFourni" border="1" >
-    <thead>
-      <tr>
-        <th>Fournisseur</th>
-        <th>Marque</th>
-        <th>Famille</th>
-        <th>Sous contrat ?</th>
-      </tr>
-    </thead>
-    <tbody id="resultsBodyFourni">
-      <!-- Les lignes seront ajoutées dynamiquement par JS -->
-    </tbody>
-  </table>
-</div>
-
 <!------Liaison à JS à la fin parce que sinon JS connaitra pas toutes les variables------>
 
 <script src="script.js"></script>
@@ -185,6 +108,3 @@
 
 
 </html>
-
-
-
