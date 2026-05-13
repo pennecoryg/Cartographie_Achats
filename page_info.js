@@ -10,14 +10,12 @@ document.title = `Informations ${fournisseur}`;
 //-------------------------------------DATA-------------------------------------//
 //------------------------------------------------------------------------------//
 
-//------------------------------------------------------------------------------//
-//-------------------------------------DATA-------------------------------------//
-//------------------------------------------------------------------------------//
-
 let data_cartoLoaded = false;
 let data_fourniLoaded = false;
+let data_extractX3Loaded = false;
 let data_carto = [];
 let data_fourni = [];
+let data_extractX3 = [];
 
 async function chargerDonnees() {
   try {
@@ -40,7 +38,7 @@ async function chargerDonnees() {
     console.log("✅ Carto chargée :", data_carto);
 
     // FOURNI
-    const colonnesMinuscules = ["Info accord", "Contact", "Mail", "Lien webshop", "Telephone"];
+    const colonnesMinusculesFourni = ["Info accord", "Contact", "Mail", "Lien webshop", "Telephone"];
 
     data_fourni = data.fourni.map(row => {
       let obj = {};
@@ -49,7 +47,7 @@ async function chargerDonnees() {
           .replace(/\r/g, "")
           .trim();
 
-        if (!colonnesMinuscules.includes(key)) {
+        if (!colonnesMinusculesFourni.includes(key)) {
           valeur = valeur.toUpperCase();
         }
 
@@ -61,30 +59,63 @@ async function chargerDonnees() {
     data_fourniLoaded = true;
     console.log("✅ Fourni chargée :", data_fourni);
 
+
+    // Extract X3
+    const colonnesMinusculesX3 = ["Civilité", "Prénom","Nom", "E-mail", "Téléphone", "Fonction"];
+
+    data_extractX3 = data.extractX3
+      .filter(row => String(row["Actif"] || "").trim().toUpperCase() === "OUI")
+      .map(row => {
+        let obj = {};
+        Object.keys(row).forEach(key => {
+          let valeur = String(row[key] || "")
+            .replace(/\r/g, "")
+            .trim();
+
+          if (!colonnesMinusculesX3.includes(key)) {
+            valeur = valeur.toUpperCase();
+          }
+
+          obj[key.trim()] = valeur;
+        });
+        return obj;
+      });
+
+    data_extractX3Loaded = true;
+    console.log("✅ ExtractX3 chargée :", data_extractX3);
+    console.log("data_carto :", data_carto.length);
+    console.log("data_fourni :", data_fourni.length);
+    console.log("data_extractX3 :", data_extractX3.length);
+
   } catch (error) {
     console.error("❌ Erreur chargement JSON :", error);
   }
 }
 
-chargerDonnees().then(() => { ;
+chargerDonnees().then(() => {
 
   
 
   //---------------------------------------------------------------------------------//
   //-----------------------------------Recup infos-----------------------------------//
   //---------------------------------------------------------------------------------//
+
+  // Recup dans data_fourni
   const ligneFourni = data_fourni.find(  
     item => item.Fournisseur === fournisseur
   );
 
+  // Recup dans data_extractX3
+  const lignesExtract = data_extractX3.filter(
+    item => item["Raison sociale"] === fournisseur
+  );
+
   //--------------------------------Nom du fournisseur-------------------------------//
   document.getElementById("fournisseurNom").textContent = fournisseur;
-  if (ligneFourni && ligneFourni["Denomination X3"]){
-    document.getElementById("denomX3").textContent = ligneFourni["Denomination X3"]
-  }
-  else{
-    document.getElementById("denomX3").textContent = "Non renseignée"
-  }
+  
+  document.getElementById("denomX3").textContent = lignesExtract[0]["Code fournisseur"]
+  
+  
   
 
   //---------------------Savoir si commandé avec lui depuis 2 ans--------------------//
@@ -99,8 +130,10 @@ chargerDonnees().then(() => { ;
   }
 
   //-----------------------Savoir l'activité du fournisseur-----------------------//
-
-  document.getElementById("activite").textContent = ligneFourni["Activite"]
+  if (ligneFourni && ligneFourni["Activite"]){
+    document.getElementById("activite").textContent = ligneFourni["Activite"]
+  }
+  
 
   //---------------------Savoir si fournisseur en contrat, en accord co ou rien---------------------//
   const rouge = document.getElementById("rouge")
@@ -161,7 +194,7 @@ chargerDonnees().then(() => { ;
 
   //---------------------------------Ajouter le ou les contact(s))---------------------------------//
 
-  // Récupérer les données depuis le CSV
+  /*// Récupérer les données depuis le CSV
   const contacts = ligneFourni["Contact"] ? ligneFourni["Contact"].split(",").map(c => c.trim()) : [];
   const fonctions = ligneFourni["Fonction"] ? ligneFourni["Fonction"].split(",").map(f => f.trim()) : [];
   const mails = ligneFourni["Mail"] ? ligneFourni["Mail"].split(",").map(m => m.trim()) : [];
@@ -253,20 +286,20 @@ chargerDonnees().then(() => { ;
     tousContacts.appendChild(contactDiv);
   }
 
-  contactsContainer.appendChild(tousContacts);
+  contactsContainer.appendChild(tousContacts);*/
 
   //------------------------------------------Pays------------------------------------------//
 
-  if (ligneFourni && ligneFourni["Pays"]){
-  document.getElementById("pays").textContent= ligneFourni["Pays"]
-  }
+  
+  document.getElementById("pays").textContent= lignesExtract[0]["Pays"]
+  
 
 
   //------------------------------------------Devise------------------------------------------//
 
-  if (ligneFourni && ligneFourni["Devise"]){
-  document.getElementById("devise").textContent= ligneFourni["Devise"]
-  }
+
+  document.getElementById("devise").textContent= lignesExtract[0]["Devise"]
+  
 
   //---------------------------------------Lien webshop---------------------------------------//
   const ligne_webshop = document.getElementById("ligne_webshop")
