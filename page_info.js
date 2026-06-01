@@ -252,12 +252,22 @@ chargerDonnees().then(() => {
       fonctionSpan.style.borderRadius = "5px";
       contactDiv.appendChild(fonctionSpan);
     }
-    
-    // Nom
-    if (contacts[i]) {
+
+    // Prénom
+    if (prenoms[i]) {
       const nomSpan = document.createElement("span");
       nomSpan.className = "contact-info";
-      nomSpan.innerHTML = `• <strong>Nom :</strong> ${contacts[i]}`;
+      nomSpan.innerHTML = `• <strong>Prénom :</strong> ${prenoms[i]}`;
+      nomSpan.style.marginLeft = "20px";
+      nomSpan.style.marginTop = "5px";
+      contactDiv.appendChild(nomSpan);
+    }
+    
+    // Nom
+    if (noms[i]) {
+      const nomSpan = document.createElement("span");
+      nomSpan.className = "contact-info";
+      nomSpan.innerHTML = `• <strong>Nom :</strong> ${noms[i]}`;
       nomSpan.style.marginLeft = "20px";
       nomSpan.style.marginTop = "5px";
       contactDiv.appendChild(nomSpan);
