@@ -194,11 +194,11 @@ chargerDonnees().then(() => {
 
   //---------------------------------Ajouter le ou les contact(s))---------------------------------//
 
-  /*// Récupérer les données depuis le CSV
-  const contacts = ligneFourni["Contact"] ? ligneFourni["Contact"].split(",").map(c => c.trim()) : [];
-  const fonctions = ligneFourni["Fonction"] ? ligneFourni["Fonction"].split(",").map(f => f.trim()) : [];
-  const mails = ligneFourni["Mail"] ? ligneFourni["Mail"].split(",").map(m => m.trim()) : [];
-  const telephones = ligneFourni["Telephone"] ? ligneFourni["Telephone"].split(",").map(t => t.trim()) : [];
+  const prenoms    = lignesExtract.map(l => l["Prénom"]);
+  const noms       = lignesExtract.map(l => l["Nom"]);
+  const fonctions  = lignesExtract.map(l => l["Fonction"]);
+  const mails      = lignesExtract.map(l => l["E-mail"]);
+  const telephones = lignesExtract.map(l => l["Téléphone"]);
 
   // Récupérer le conteneur
   const contactsContainer = document.getElementById("contacts");
@@ -221,7 +221,7 @@ chargerDonnees().then(() => {
   tousContacts.style.marginTop = "10px";
 
   // Boucle pour créer chaque contact
-  const nbContacts = Math.max(contacts.length, fonctions.length, mails.length, telephones.length);
+  const nbContacts = Math.max(prenoms.length, noms.length, fonctions.length, mails.length, telephones.length);
 
   for (let i = 0; i < nbContacts; i++) {
     const contactDiv = document.createElement("div");
@@ -286,7 +286,7 @@ chargerDonnees().then(() => {
     tousContacts.appendChild(contactDiv);
   }
 
-  contactsContainer.appendChild(tousContacts);*/
+  contactsContainer.appendChild(tousContacts);
 
   //------------------------------------------Pays------------------------------------------//
 
