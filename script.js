@@ -86,45 +86,7 @@ async function chargerDonnees() {
 
 chargerDonnees().then(() => {
 
-// ✅ Maintenant les données sont chargées, on peut remplir les datalists
-  
-  // Remplir la liste des marques
-  const marques_disp = [...new Set(data_carto.map(item => item.Fabriquant))].filter(m => m).sort();
-  const marquesDatalist = document.getElementById("marquesList");
-  marques_disp.forEach(marque => {
-    const option = document.createElement("option");
-    option.value = marque;
-    marquesDatalist.appendChild(option);
-  });
 
-  // Remplir la liste des fournisseurs
-  const fournisseurs_disp = [...new Set(data_extractX3.map(item => item["Raison sociale"]))].filter(f => f).sort();
-  const fournisseursDatalist = document.getElementById("fournisseursList");
-  fournisseurs_disp.forEach(fournisseur => {
-    const option = document.createElement("option");
-    option.value = fournisseur;
-    fournisseursDatalist.appendChild(option);
-  });
-
-  // Remplir la liste des familles
-  const familles_disp = [...new Set(data_carto.map(item => item.Famille))].filter(f => f).sort();
-  const famillesDatalist = document.getElementById("famillesList");
-  familles_disp.forEach(famille => {
-    const option = document.createElement("option");
-    option.value = famille;
-    famillesDatalist.appendChild(option);
-  });
-
-  // Remplir la liste des statuts
-  const statuts_disp = ["Neuf", "Reconditionné", "Réparation"];
-  const statutsDatalist = document.getElementById("statutsList");
-  statuts_disp.forEach(statut => {
-    const option = document.createElement("option");
-    option.value = statut;
-    statutsDatalist.appendChild(option);
-  });
-  
-  console.log("✅ Datalists remplis avec", marques_disp.length, "marques et", fournisseurs_disp.length, "fournisseurs");
 
   //--------------------------------------------------------------------------------//
   //------------------------------------Variables-----------------------------------//
@@ -151,138 +113,146 @@ chargerDonnees().then(() => {
     inputFamille.value = "";
     inputStatut.value = "";
     remplirTableau();
-    }
+  }
 
   function lancerRemplissage() {
-      remplirTableau();
-    }
+    remplirTableau();
+  }
 
-    // Première condition du lancement de remplissage de tableau avec bouton valider
-    btnValider.onclick = lancerRemplissage;
+  btnValider.onclick = lancerRemplissage;
+
+  [inputFournisseur, inputMarque, inputFamille, inputStatut].forEach(input => {
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") { lancerRemplissage(); } });
+  });
+
+  function mettreAJourDatalist(lignes) {
+    const marquesFiltrees = [...new Set(lignes.map(l => l.marque).filter(m => m))].sort();
+    const marquesDatalist = document.getElementById("marquesList");
+    marquesDatalist.innerHTML = "";
+    marquesFiltrees.forEach(marque => {
+      const option = document.createElement("option");
+      option.value = marque;
+      marquesDatalist.appendChild(option);
+    });
+
+    const famillesFiltrees = [...new Set(lignes.map(l => l.famille).filter(f => f))].sort();
+    const famillesDatalist = document.getElementById("famillesList");
+    famillesDatalist.innerHTML = "";
+    famillesFiltrees.forEach(famille => {
+      const option = document.createElement("option");
+      option.value = famille;
+      famillesDatalist.appendChild(option);
+    });
+
+    const fournisseursFiltres = [...new Map(
+      lignes.filter(l => l.fournisseur)
+        .map(l => [l.fournisseur, { raisonSociale: l.fournisseur, codeX3: l.codeX3 }])
+    ).values()].sort((a, b) => a.raisonSociale.localeCompare(b.raisonSociale));
+
+    const fournisseursDatalist = document.getElementById("fournisseursList");
+    fournisseursDatalist.innerHTML = "";
+    fournisseursFiltres.forEach(f => {
+      const option = document.createElement("option");
+      option.value = `${f.raisonSociale} - ${f.codeX3}`;
+      fournisseursDatalist.appendChild(option);
+    });
 
 
-    // Deuxième condition du lancement de remplissage de tableau avec touche entrer
-    [inputFournisseur, inputMarque, inputFamille, inputStatut].forEach(input => {
-      input.addEventListener("keydown", function (e) {if (e.key === "Enter") {lancerRemplissage();}
+    const fournisseursPresents = [...new Set(lignes.map(l => l.fournisseur).filter(f => f))];
+    const statutsPossibles = ["Neuf", "Reconditionné", "Réparation"];
+    const colonnesStatut = { "Neuf": "Neuf ?", "Reconditionné": "Reconditionne ?", "Réparation": "Reparation ?" };
+
+    const statutsFiltres = statutsPossibles.filter(statut => {
+      return fournisseursPresents.some(fournisseur => {
+        const ligneFourni = data_fourni.find(f => f["Fournisseur"] === fournisseur.toUpperCase());
+        return ligneFourni && (ligneFourni[colonnesStatut[statut]] || "").toUpperCase() === "OUI";
       });
     });
 
+    const statutsDatalist = document.getElementById("statutsList");
+    statutsDatalist.innerHTML = "";
+    statutsFiltres.forEach(statut => {
+      const option = document.createElement("option");
+      option.value = statut;
+      statutsDatalist.appendChild(option);
+    });
+
+  }
 
   function remplirTableau() {
     const tbody = document.getElementById("resultsTableau");
     tbody.innerHTML = "";
     const valeursRenseignees = {
-      fournisseur: inputFournisseur.value.trim().toUpperCase(),
+      fournisseur: inputFournisseur.value.split(" - ")[0].trim().toUpperCase(),
       marque:      inputMarque.value.trim().toUpperCase(),
       famille:     inputFamille.value.trim().toUpperCase(),
+      statut:      inputStatut.value.trim(),
     };
 
-    // On construit les lignes à partir de data_extractX3 (liste des fournisseurs)
     const lignesTableau = [];
-
-    // On dédoublonne les fournisseurs de data_extractX3
     const fournisseursUniques = [...new Set(data_extractX3.map(item => item["Raison sociale"]).filter(f => f))];
 
-    // --------------------Récupération des infos dans le data_extractX3--------------------
     fournisseursUniques.forEach(raisonSociale => {
       const ligneX3 = data_extractX3.find(item => item["Raison sociale"] === raisonSociale);
-
-      // Récupérer le Code fournisseur X3 associé (on prend le premier trouvé)
       const codeX3 = ligneX3 ? ligneX3["Code fournisseur"] : "";
-      // Récupérer la devise du fournisseur
       const devise = ligneX3 ? ligneX3["Devise"] : "";
-      
-      // --------------------Récupération des infos dans le data_carto--------------------
-      // Chercher les marques associées dans data_carto
-      // On compare Raison sociale (X3) avec Fournisseur (carto), qui peut contenir plusieurs fournisseurs séparés par virgules
+
       const lignesCarto = data_carto.filter(item => {
         if (!item.Fournisseur) return false;
-        return item.Fournisseur
-          .split(",")
-          .map(f => f.trim().toUpperCase())
-          .includes(raisonSociale.toUpperCase());
+        return item.Fournisseur.split(",").map(f => f.trim().toUpperCase()).includes(raisonSociale.toUpperCase());
       });
 
-      // --------------------Récupération des infos dans le data_fourni--------------------
-      const ligneFourni = data_fourni.find(
-        item => item["Fournisseur"] === raisonSociale.toUpperCase()
-      );
+      const ligneFourni = data_fourni.find(item => item["Fournisseur"] === raisonSociale.toUpperCase());
       const activite = ligneFourni ? ligneFourni["Activite"] || "" : "";
       const lienWeb = ligneFourni ? ligneFourni["Lien webshop"] || "" : "";
       const sousContrat = ligneFourni ? ligneFourni["Contrat ?"] || "" : "";
 
-
-
-      // Définir la valeur des variables selon les 2 cas (si fournisseur de data_extractX3 associé à une marque de data_carto ou non)
-
-
       if (lignesCarto.length === 0) {
-        // Pas de marque associée → une seule ligne avec marque et famille vides
-        lignesTableau.push({
-          fournisseur: raisonSociale,
-          codeX3: codeX3,
-          marque: "",
-          famille: "",
-          activite: activite,
-          devise: devise,
-          lienWeb: lienWeb,
-          sousContrat: sousContrat,
-          priorite: ""
-        });
+        lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: "", famille: "", activite, devise, lienWeb, sousContrat, priorite: "" });
       } else {
-        // Une ou plusieurs marque(s) associée(s) → une ligne par marque associée au fournisseur dans data_carto
         lignesCarto.forEach(item => {
-          // Récupérer la position du fournisseur dans la liste de la marque pour la priorité
-          const listeFournisseurs = item.Fournisseur
-            ? item.Fournisseur.split(",").map(f => f.trim().toUpperCase())
-            : [];
-          
+          const listeFournisseurs = item.Fournisseur ? item.Fournisseur.split(",").map(f => f.trim().toUpperCase()) : [];
           const position = listeFournisseurs.indexOf(raisonSociale.toUpperCase());
-          const priorite = position === 0 ? "Priorité 1"
-                        : position === 1 ? "Priorité 2"
-                        : position === 2 ? "Priorité 3"
-                        : "";
-
-          lignesTableau.push({
-            fournisseur: raisonSociale,
-            codeX3: codeX3,
-            marque: item.Fabriquant || "",
-            famille: item.Famille || "",
-            activite: activite,
-            devise: devise,
-            lienWeb: lienWeb,
-            sousContrat: sousContrat,
-            priorite: priorite
-          });
+          const priorite = position === 0 ? "1" : position === 1 ? "2" : position === 2 ? "3" : "";
+          lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: item.Fabriquant || "", famille: item.Famille || "", activite, devise, lienWeb, sousContrat, priorite });
         });
       }
     });
 
-  // Filtrage sur lignesTableau avant le remplissage HTML
-  const lignesFiltrees = lignesTableau.filter(ligne => {
-    if (valeursRenseignees.fournisseur && ligne.fournisseur.toUpperCase() !== valeursRenseignees.fournisseur) return false;
-    if (valeursRenseignees.marque && ligne.marque.toUpperCase() !== valeursRenseignees.marque) return false;
-    if (valeursRenseignees.famille && ligne.famille.toUpperCase() !== valeursRenseignees.famille) return false;
-    return true;
-  });
+    const lignesFiltrees = lignesTableau.filter(ligne => {
+      if (valeursRenseignees.fournisseur && ligne.fournisseur.toUpperCase() !== valeursRenseignees.fournisseur) return false;
+      if (valeursRenseignees.marque && ligne.marque.toUpperCase() !== valeursRenseignees.marque) return false;
+      if (valeursRenseignees.famille && ligne.famille.toUpperCase() !== valeursRenseignees.famille) return false;
+      if (valeursRenseignees.statut) {
+        const colonneStatut = valeursRenseignees.statut === "Neuf" ? "Neuf ?"
+                            : valeursRenseignees.statut === "Reconditionné" ? "Reconditionne ?"
+                            : valeursRenseignees.statut === "Réparation" ? "Reparation ?"
+                            : null;
+        const ligneFourni = data_fourni.find(f => f["Fournisseur"] === ligne.fournisseur.toUpperCase());
+        if (!ligneFourni || (ligneFourni[colonneStatut] || "").toUpperCase() !== "OUI") return false;
+      }
+      return true;
+    });
 
-  // Remplissage du tableau HTML
-  lignesFiltrees.forEach(ligne => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><a href="page_info.html?fournisseur=${encodeURIComponent(ligne.fournisseur)}" target="_blank">${ligne.fournisseur}</a></td>
-      <td>${ligne.codeX3}</td>
-      <td>${ligne.marque}</td>
-      <td>${ligne.famille}</td>
-      <td>${ligne.activite}</td>
-      <td>${ligne.devise}</td>
-      <td>${ligne.lienWeb}</td>
-      <td>${ligne.sousContrat}</td>
-      <td></td>
-      <td>${ligne.priorite}</td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
+    // Mettre à jour les datalists APRÈS le filtrage
+    mettreAJourDatalist(lignesFiltrees);
+
+    lignesFiltrees.forEach(ligne => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><a href="page_info.html?fournisseur=${encodeURIComponent(ligne.fournisseur)}" target="_blank">${ligne.fournisseur}</a></td>
+        <td>${ligne.codeX3}</td>
+        <td>${ligne.marque}</td>
+        <td>${ligne.famille}</td>
+        <td>${ligne.activite}</td>
+        <td>${ligne.devise}</td>
+        <td>${ligne.lienWeb ? `<a href="${ligne.lienWeb}" target="_blank">${ligne.lienWeb}</a>` : ""}</td>
+        <td>${ligne.sousContrat}</td>
+        <td></td>
+        <td>${ligne.priorite}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
 
 })
