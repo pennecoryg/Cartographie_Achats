@@ -5,9 +5,11 @@
 let data_cartoLoaded = false;
 let data_fourniLoaded = false;
 let data_extractX3Loaded = false;
+let data_topFoLoaded = false;
 let data_carto = [];
 let data_fourni = [];
 let data_extractX3 = [];
+let data_topFo = [];
 
 async function chargerDonnees() {
   try {
@@ -75,18 +77,33 @@ async function chargerDonnees() {
 
     data_extractX3Loaded = true;
     console.log("✅ ExtractX3 chargée :", data_extractX3);
+
+    // TopFo
+    data_topFo = data.topFo.map(row => {
+      let obj = {};
+      Object.keys(row).forEach(key => {
+        obj[key.trim()] = String(row[key] || "")
+          .replace(/\r/g, "")
+          .trim()
+          .toUpperCase();
+      });
+      return obj;
+    });
+
+    data_topFoLoaded = true;
+    console.log("✅ Top Fo chargée :", data_topFo);
+
+
     console.log("data_carto :", data_carto.length);
     console.log("data_fourni :", data_fourni.length);
     console.log("data_extractX3 :", data_extractX3.length);
-
+    console.log("data_topFo :", data_topFo.length);
   } catch (error) {
     console.error("❌ Erreur chargement JSON :", error);
   }
 }
 
 chargerDonnees().then(() => {
-
-
 
   //--------------------------------------------------------------------------------//
   //------------------------------------Variables-----------------------------------//
@@ -207,16 +224,22 @@ chargerDonnees().then(() => {
       const lienWeb = ligneFourni ? ligneFourni["Lien webshop"] || "" : "";
       const sousContrat = ligneFourni ? ligneFourni["Contrat ?"] || "" : "";
 
+      const ligneTopFo = data_topFo.find(item => item["Fournisseur"] === raisonSociale.toUpperCase());
+      const topOryg = ligneTopFo ? ligneTopFo["Classement"] || "" : "";
+      
+
+
       if (lignesCarto.length === 0) {
-        lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: "", famille: "", activite, devise, lienWeb, sousContrat, priorite: "" });
+        lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: "", famille: "", activite, devise, lienWeb, sousContrat, topOryg, priorite: "" });
       } else {
         lignesCarto.forEach(item => {
           const listeFournisseurs = item.Fournisseur ? item.Fournisseur.split(",").map(f => f.trim().toUpperCase()) : [];
           const position = listeFournisseurs.indexOf(raisonSociale.toUpperCase());
           const priorite = position === 0 ? "1" : position === 1 ? "2" : position === 2 ? "3" : "";
-          lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: item.Fabriquant || "", famille: item.Famille || "", activite, devise, lienWeb, sousContrat, priorite });
+          lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: item.Fabriquant || "", famille: item.Famille || "", activite, devise, lienWeb, sousContrat, topOryg, priorite });
         });
       }
+      
     });
 
     const lignesFiltrees = lignesTableau.filter(ligne => {
@@ -248,7 +271,7 @@ chargerDonnees().then(() => {
         <td>${ligne.devise}</td>
         <td>${ligne.lienWeb ? `<a href="${ligne.lienWeb}" target="_blank">${ligne.lienWeb}</a>` : ""}</td>
         <td>${ligne.sousContrat}</td>
-        <td></td>
+        <td>${ligne.topOryg}</td>
         <td>${ligne.priorite}</td>
       `;
       tbody.appendChild(tr);
