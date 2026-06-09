@@ -33,6 +33,7 @@ label {
 p {
   display: flex;
   font-size: 20px;
+  font-weight: bold;
 }
 
 /*------------------------------------- Initialisation du style des ID -------------------------------------*/
@@ -100,8 +101,8 @@ p {
 #inputFamille,
 #inputStatut {
   border-radius: 5px;
-  border: 2px solid #FFDA00;
-  background-color: #FFF4BB;
+  border: 2px solid #C3C3C3;
+  background-color: #E6E6E6;
   color: #707173;
   width: 90%;
   box-sizing: border-box;
@@ -122,8 +123,8 @@ p {
 }
 
 #btnValider {
-  border: 2px solid #009EFF;
-  background-color: #5CC1FF;
+  border: 2px solid #00EC00;
+  background-color: #5BF25B;
 }
 
 #btnEffacer {
@@ -164,13 +165,18 @@ p {
   top: 0;
   padding: 10px;
   text-align: center;
-  color: white;
-  border-bottom: 1px solid white;
-  background-color: #009EFF;
+  border-bottom: 2px solid #C3C3C3;
+  background-color: white;
 }
 
+#Tableau thead th:nth-child(5n+1) { color: #009EFF; }
+#Tableau thead th:nth-child(5n+2) { color: #00EC00; }
+#Tableau thead th:nth-child(5n+3) { color: #FF785A; }
+#Tableau thead th:nth-child(5n+4) { color: #FFDA00; }
+#Tableau thead th:nth-child(5n+5) { color: #FF3E61; }
+
 #Tableau tbody tr:nth-child(even) {
-  background-color: rgba(186, 229, 255, 0.5);
+  background-color: #E6E6E6;
 }
 
 #Tableau a {
