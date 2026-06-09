@@ -134,6 +134,7 @@ p {
 #intitule_informations{
   font-size: 32px;
   font-weight: bold;
+  color: #009EFF;
   margin-bottom: 30px;  /* 30px après le titre */
 }
 
