@@ -226,8 +226,8 @@ chargerDonnees().then(() => {
 
       const ligneTopFo = data_topFo.find(item => item["Fournisseur"] === raisonSociale.toUpperCase());
       const topOryg = ligneTopFo ? ligneTopFo["Classement"] || "" : "";
+  
       
-
 
       if (lignesCarto.length === 0) {
         lignesTableau.push({ fournisseur: raisonSociale, codeX3, marque: "", famille: "", activite, devise, lienWeb, sousContrat, topOryg, priorite: "" });
@@ -272,7 +272,7 @@ chargerDonnees().then(() => {
         <td>${ligne.lienWeb ? `<a href="${ligne.lienWeb}" target="_blank">${ligne.lienWeb}</a>` : ""}</td>
         <td>${ligne.sousContrat}</td>
         <td>${ligne.topOryg}</td>
-        <td>${ligne.priorite}</td>
+        <td>${ligne.priorite == "1" ? "<strong>1</strong>" : ligne.priorite}</td>
       `;
       tbody.appendChild(tr);
     });
