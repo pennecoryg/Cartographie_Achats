@@ -109,6 +109,10 @@ p {
   min-width: 0;
 }
 
+#toolbarFournisseur label { color: #009EFF; font-weight: bold; }
+#toolbarMarque label      { color: #00EC00; font-weight: bold; }
+#toolbarFamille label     { color: #FF785A; font-weight: bold; }
+#toolbarStatut label      { color: #FFDA00; font-weight: bold; }
 
 #btnValider,
 #btnEffacer {
@@ -165,15 +169,13 @@ p {
   top: 0;
   padding: 10px;
   text-align: center;
+  color: #707173;
   border-bottom: 2px solid #C3C3C3;
   background-color: white;
+  white-space: nowrap;
 }
 
-#Tableau thead th:nth-child(5n+1) { color: #009EFF; }
-#Tableau thead th:nth-child(5n+2) { color: #00EC00; }
-#Tableau thead th:nth-child(5n+3) { color: #FF785A; }
-#Tableau thead th:nth-child(5n+4) { color: #FFDA00; }
-#Tableau thead th:nth-child(5n+5) { color: #FF3E61; }
+
 
 #Tableau tbody tr:nth-child(even) {
   background-color: #E6E6E6;
