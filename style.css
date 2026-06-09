@@ -164,13 +164,18 @@ p {
   word-wrap: break-word;
 }
 
+#Tableau thead {
+  position: sticky;
+  top: 0;
+  box-shadow: 0 2px 0 #C3C3C3;
+}
+
 #Tableau thead th {
   position: sticky;
   top: 0;
   padding: 10px;
   text-align: center;
   color: #707173;
-  border-bottom: 2px solid #C3C3C3;
   background-color: white;
   white-space: nowrap;
 }
