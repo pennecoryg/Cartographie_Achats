@@ -207,9 +207,10 @@ chargerDonnees().then(() => {
   // Créer le titre "Contacts :"
   const intitule = document.createElement("span");
   intitule.id = "intitule";
-  intitule.textContent = "Contacts :";
+  intitule.textContent = "Contacts";
   intitule.style.fontWeight = "bold";
   intitule.style.fontSize = "32px";
+  intitule.style.color = "#FFDA00";
   intitule.style.marginBottom = "30px";
   contactsContainer.appendChild(intitule);
 
@@ -243,12 +244,12 @@ chargerDonnees().then(() => {
       fonctionSpan.style.position = "absolute";
       fonctionSpan.style.top = "-12px";
       fonctionSpan.style.left = "15px";
-      fonctionSpan.style.backgroundColor = "#f9f9f9";
+      fonctionSpan.style.backgroundColor = "#FFE479";
       fonctionSpan.style.padding = "2px 10px";
       fonctionSpan.style.fontSize = "18px";
       fonctionSpan.style.fontWeight = "bold";
       fonctionSpan.style.color = "#707173";
-      fonctionSpan.style.border = "1px solid #707173";
+      fonctionSpan.style.border = "2px solid #FFDA00";
       fonctionSpan.style.borderRadius = "5px";
       contactDiv.appendChild(fonctionSpan);
     }
