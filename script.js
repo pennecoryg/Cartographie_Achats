@@ -182,7 +182,9 @@ chargerDonnees().then(() => {
     const statutsFiltres = statutsPossibles.filter(statut => {
       return fournisseursPresents.some(fournisseur => {
         const ligneFourni = data_fourni.find(f => f["Fournisseur"] === fournisseur.toUpperCase());
-        return ligneFourni && (ligneFourni[colonnesStatut[statut]] || "").toUpperCase() === "OUI";
+        if (!ligneFourni) return false;
+        const valeur = (ligneFourni[colonnesStatut[statut]] || "").toUpperCase();
+        return valeur === "OUI" || valeur === "";
       });
     });
 
@@ -252,7 +254,9 @@ chargerDonnees().then(() => {
                             : valeursRenseignees.statut === "Réparation" ? "Reparation ?"
                             : null;
         const ligneFourni = data_fourni.find(f => f["Fournisseur"] === ligne.fournisseur.toUpperCase());
-        if (!ligneFourni || (ligneFourni[colonneStatut] || "").toUpperCase() !== "OUI") return false;
+        if (!ligneFourni) return false;
+        const valeurColonne = (ligneFourni[colonneStatut] || "").toUpperCase();
+        if (valeurColonne !== "OUI" && valeurColonne !== "") return false;
       }
       return true;
     });
