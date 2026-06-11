@@ -13,9 +13,11 @@ document.title = `Informations ${fournisseur}`;
 let data_cartoLoaded = false;
 let data_fourniLoaded = false;
 let data_extractX3Loaded = false;
+let data_topFoLoaded = false;
 let data_carto = [];
 let data_fourni = [];
 let data_extractX3 = [];
+let data_topFo = [];
 
 async function chargerDonnees() {
   try {
@@ -83,10 +85,32 @@ async function chargerDonnees() {
 
     data_extractX3Loaded = true;
     console.log("✅ ExtractX3 chargée :", data_extractX3);
+
+    // TopFo
+    const colonnesMinusculesTop = ["Statut"];
+    data_topFo = data.topFo.map(row => {
+      let obj = {};
+      Object.keys(row).forEach(key => {
+        let valeur =String(row[key] || "")
+          .replace(/\r/g, "")
+          .trim();
+          if (!colonnesMinusculesTop.includes(key)) {
+            valeur = valeur.toUpperCase();
+          }
+
+          obj[key.trim()] = valeur;
+      });
+      return obj;
+    });
+
+    data_topFoLoaded = true;
+    console.log("✅ Top Fo chargée :", data_topFo);
+
+
     console.log("data_carto :", data_carto.length);
     console.log("data_fourni :", data_fourni.length);
     console.log("data_extractX3 :", data_extractX3.length);
-
+    console.log("data_topFo :", data_topFo.length);
   } catch (error) {
     console.error("❌ Erreur chargement JSON :", error);
   }
@@ -109,6 +133,12 @@ chargerDonnees().then(() => {
   const lignesExtract = data_extractX3.filter(
     item => item["Raison sociale"] === fournisseur
   );
+
+  // Recup dans data_topFo
+  const ligneTopFo = data_topFo.filter(
+    item => item.Fournisseur === fournisseur
+  );
+
 
   //--------------------------------Nom du fournisseur-------------------------------//
   document.getElementById("fournisseurNom").textContent = fournisseur;
@@ -321,5 +351,42 @@ chargerDonnees().then(() => {
   else {
     ligne_webshop.style.display = "none"
   }
+
+
+  //---------------------------------------Top Orygamy---------------------------------------//
+  if (ligneTopFo[0] && ligneTopFo[0]["Classement"]){
+    document.getElementById("top").textContent = ligneTopFo[0]["Classement"];
+  }
+  
+  //------------------------------------------Statut------------------------------------------//
+  if (ligneTopFo[0] && ligneTopFo[0]["Statut"]){
+    if (ligneTopFo[0]["Statut"]==="Très favorable"){
+      document.getElementById("statut").textContent = ligneTopFo[0]["Statut"];
+      document.getElementById("statut").style.color = "#00B050";
+    }
+
+    if (ligneTopFo[0]["Statut"]==="Favorable"){
+      document.getElementById("statut").textContent = ligneTopFo[0]["Statut"];
+      document.getElementById("statut").style.color = "#92D050";
+    }
+
+    if (ligneTopFo[0]["Statut"]==="À surveiller"){
+      document.getElementById("statut").textContent = ligneTopFo[0]["Statut"];
+      document.getElementById("statut").style.color = "#FFC000";
+    }
+
+    if (ligneTopFo[0]["Statut"]==="Défavorable"){
+      document.getElementById("statut").textContent = ligneTopFo[0]["Statut"];
+      document.getElementById("statut").style.color = "#FF6600";
+    }
+
+    if (ligneTopFo[0]["Statut"]==="Rechercher une nouvelle solution"){
+      document.getElementById("statut").textContent = ligneTopFo[0]["Statut"];
+      document.getElementById("statut").style.color = "#FF0000";
+    }
+  }
+  
+ 
+
 
 });  
