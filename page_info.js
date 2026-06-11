@@ -196,7 +196,7 @@ chargerDonnees().then(() => {
 
   const prenoms    = lignesExtract.map(l => l["Prénom"]);
   const noms       = lignesExtract.map(l => l["Nom"]);
-  const fonctions  = lignesExtract.map(l => l["Fonction"]);
+  const fonctions  = lignesExtract.map(l => l["Service"] || l["Fonction"]);
   const mails      = lignesExtract.map(l => l["E-mail"]);
   const telephones = lignesExtract.map(l => l["Téléphone"]);
 
