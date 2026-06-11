@@ -272,11 +272,11 @@ chargerDonnees().then(() => {
         <td>${ligne.marque}</td>
         <td>${ligne.famille}</td>
         <td>${ligne.activite}</td>
-        <td>${ligne.devise}</td>
-        <td>${ligne.lienWeb ? `<a href="${ligne.lienWeb}" target="_blank">${ligne.lienWeb}</a>` : ""}</td>
+        <td>${ligne.devise}</td>   
         <td>${ligne.sousContrat}</td>
         <td>${ligne.topOryg}</td>
         <td>${ligne.priorite == "1" ? "<strong>1</strong>" : ligne.priorite}</td>
+        <td>${ligne.lienWeb ? `<a href="${ligne.lienWeb}" target="_blank">${ligne.lienWeb}</a>` : ""}</td>
       `;
       tbody.appendChild(tr);
     });
