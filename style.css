@@ -186,6 +186,14 @@ p {
   background-color: #E6E6E6;
 }
 
+#resultsTableau td:nth-child(10),
+#resultsTableau th:nth-child(10) {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #Tableau a {
   font-weight: bold;       /* texte en gras */
   color: inherit;          /* garde la couleur du texte du tableau */
