@@ -140,7 +140,9 @@ p {
 
 #ligne_contrat,
 #ligne_pays,
-#ligne_devise{
+#ligne_devise,
+#ligne_top,
+#ligne_statut{
   display: flex;
   align-items: center;
   gap: 15px;
