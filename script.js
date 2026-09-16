@@ -119,6 +119,9 @@ chargerDonnees().then(() => {
 
   const btnValider = document.getElementById("btnValider")
   const btnEffacer = document.getElementById("btnEffacer")
+  document.getElementById("btnMAJ").addEventListener("click", function () {
+  window.open("https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=GAcq9M6HUEm7UwTL1_9iyWyM7Rkpa0JAo_Py0Rp6XE9UMkVUU1gxSTJTMTUzTTVDQUNQM0xBSTc4US4u", "_blank");
+});
 
 
   //---------------------------------MAIN---------------------------------//
